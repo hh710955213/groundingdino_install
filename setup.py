@@ -24,9 +24,9 @@ import glob
 import os
 import subprocess
 
-import torch
+# import torch
 from setuptools import find_packages, setup
-from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
+# from torch.utils.cpp_extension import CUDA_HOME, CppExtension, CUDAExtension
 
 # groundingdino version info
 version = "0.1.0"
@@ -50,7 +50,7 @@ def write_version_file():
 
 requirements = ["torch", "torchvision"]
 
-torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
+# torch_ver = [int(x) for x in torch.__version__.split(".")[:2]]
 
 
 def get_extensions():
@@ -72,28 +72,28 @@ def get_extensions():
     am_i_docker = os.environ.get('AM_I_DOCKER', '').casefold() in ['true', '1', 't']
     use_cuda = os.environ.get('BUILD_WITH_CUDA', '').casefold() in ['true', '1', 't']
 
-    extension = CppExtension
+    # extension = CppExtension
 
     extra_compile_args = {"cxx": []}
     define_macros = []
 
-    if (torch.cuda.is_available() and CUDA_HOME is not None) or \
-            (am_i_docker and use_cuda):
-        print("Compiling with CUDA")
-        extension = CUDAExtension
-        sources += source_cuda
-        define_macros += [("WITH_CUDA", None)]
-        extra_compile_args["nvcc"] = [
-            "-DCUDA_HAS_FP16=1",
-            "-D__CUDA_NO_HALF_OPERATORS__",
-            "-D__CUDA_NO_HALF_CONVERSIONS__",
-            "-D__CUDA_NO_HALF2_OPERATORS__",
-        ]
-    else:
-        print("Compiling without CUDA")
-        define_macros += [("WITH_HIP", None)]
-        extra_compile_args["nvcc"] = []
-        return None
+    # if (torch.cuda.is_available() and CUDA_HOME is not None) or \
+    #         (am_i_docker and use_cuda):
+    #     print("Compiling with CUDA")
+    #     extension = CUDAExtension
+    #     sources += source_cuda
+    #     define_macros += [("WITH_CUDA", None)]
+    #     extra_compile_args["nvcc"] = [
+    #         "-DCUDA_HAS_FP16=1",
+    #         "-D__CUDA_NO_HALF_OPERATORS__",
+    #         "-D__CUDA_NO_HALF_CONVERSIONS__",
+    #         "-D__CUDA_NO_HALF2_OPERATORS__",
+    #     ]
+    # else:
+    #     print("Compiling without CUDA")
+    #     define_macros += [("WITH_HIP", None)]
+    #     extra_compile_args["nvcc"] = []
+    #     return None
 
     sources = [os.path.join(extensions_dir, s) for s in sources]
     include_dirs = [extensions_dir]
@@ -211,6 +211,6 @@ if __name__ == "__main__":
                 "tests",
             )
         ),
-        ext_modules=get_extensions(),
+        # ext_modules=get_extensions(),
         cmdclass={"build_ext": torch.utils.cpp_extension.BuildExtension},
     )
