@@ -212,5 +212,5 @@ if __name__ == "__main__":
             )
         ),
         # ext_modules=get_extensions(),
-        cmdclass={"build_ext": torch.utils.cpp_extension.BuildExtension},
+        # cmdclass={"build_ext": torch.utils.cpp_extension.BuildExtension},
     )
